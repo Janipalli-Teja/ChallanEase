@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChallanEase - E-Challan Form</title>
+  <link rel="stylesheet" href="../styles/index.css">
+</head>
+
+<body>
+  <header>
+    <h1>ChallanEase</h1>
+  </header>
+
+  <form id="uploadForm" action="/api/submit-pic" method="POST" enctype="multipart/form-data">
+    <h2>Scan the Number Plate</h2>
+    <div class="file-input-wrapper">
+      <button type="button" id="cameraButton">
+          <img src="../images/cam-icon.png" alt="cam-icon" height="100px">
+      </button>
+      <input type="file" id="mypic" name="mypic" accept="image/png" capture="camera" style="display: none;">
+      <button id="refreshButton" style="display: none;">🔄</button>
+    </div>
+    <br>
+    <button id="submit-pic" type="submit">Submit</button>
+  </form>
+
+  <div class="login-part">
+    <h2>Or Make it Manual</h2>
+    <div class="form-validation">
+      <form action="/api/generate" method="POST" enctype="multipart/form-data">
+        <label for="vehicle">Vehicle No :</label>
+        <input type="text" name="vehicle" id="vehicle" placeholder="ex: AP 35 DE 1995">
+        <br>
+        <br>
+        <label for="violation">Violation:</label>
+        <select id="violation" name="violation">
+          <option value="Minor">Minor</option>
+          <option value="Triple Ride">Triple Ride</option>
+          <option value="No Helmet">No Helmet</option>
+        </select>
+        <label for="fine">Fine:</label>
+        <select id="fine" name="fine">
+          <option value="1000">1000</option>
+          <option value="3000">3000</option>
+          <option value="5000">5000</option>
+        </select>
+        <div>
+          <button type="generate">Generate</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../script.js"></script>
+</body>
+
+</html>
