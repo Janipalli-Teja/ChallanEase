@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../styles/login.css">
+</head>
+
+<body>
+    <h1>Login</h1>
+    <form id="loginForm">
+        <label>Email</label>
+        <input type="text" required name="email" id="email" />
+        <label>Password</label>
+        <input type="password" required name="password" id="password" />
+        <button type="submit">Login</button>
+    </form>
+    <p id="message"></p>
+    <p>or <span id="signupLink" style="color: blue; cursor: pointer;">Sign Up</span></p>
+
+
+    <script>
+
+        document.getElementById("signupLink").addEventListener("click", function () {
+            window.location.href = "/user/signup"; // Redirect to signup page
+        });
+
+        document.getElementById("loginForm").addEventListener("submit", async function (event) {
+            event.preventDefault(); // Prevent page reload
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            const response = await fetch("/user/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                document.getElementById("message").innerText = "Login successful! Redirecting...";
+                setTimeout(() => {
+                    window.location.href = "/home"; // Redirect to home page
+                }, 2000);
+            } else {
+                document.getElementById("message").innerText = result.error || "Login failed!";
+            }
+        });
+    </script>
+</body>
+
+</html>

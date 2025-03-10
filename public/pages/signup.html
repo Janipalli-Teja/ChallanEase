@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChallanEase - SignUp</title>
+    <link rel="stylesheet" href="../styles/signup.css">
+</head>
+<body>
+    <h1>Signup</h1>
+    <form id="signupForm">
+        <label>Full Name</label>
+        <input type="text" required name="name" id="name" />
+        <label>Email</label>
+        <input type="email" required name="email" id="email" />
+        <label>Password</label>
+        <input type="password" required name="password" id="password" />
+        <button type="submit">Signup</button>
+    </form>
+    <p id="message"></p> 
+    <p>or <span id="loginLink" style="color: blue; cursor: pointer;">login</span></p>
+
+    <script>
+        
+        document.getElementById("loginLink").addEventListener("click", function () {
+            window.location.href = "/user/login"; // Redirect to signup page
+        });
+        document.getElementById("signupForm").addEventListener("submit", async function (event) {
+            event.preventDefault(); // Prevent page reload
+
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            const response = await fetch("/user/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name, email, password })
+            });
+
+            if (response.ok) {
+                document.getElementById("message").innerText = "Signup successful! Redirecting...";
+                setTimeout(() => {
+                    window.location.href = "/user/login"; // Redirect to login page
+                }, 1000);
+            } else {
+                const result = await response.json();
+                document.getElementById("message").innerText = result.error || "Signup failed!";
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,5 +1,4 @@
 const express=require("express");
-const fs = require('fs');
 const upload = require('../middileware/upload'); // Import Multer middleware
 
 const app=express();
@@ -39,5 +38,4 @@ router.post("/generate", async (req, res) => {
     }
 });
 
-ds
 module.exports=router;
