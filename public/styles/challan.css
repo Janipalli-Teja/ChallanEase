@@ -1,0 +1,70 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: #f4f4f9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 60px; /* Prevents content from being hidden by navbar */
+  }
+  
+  /* Main Content */
+  main {
+    flex: 1;
+    padding-bottom: 60px; /* Ensures no overlap with navbar */
+  }
+  
+  /* Header */
+  h1 {
+    margin: 20px 0;
+    color: #333;
+  }
+  
+  /* 🎯 Bottom Navigation Bar */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: space-around;
+    padding: 6px 0;
+    border-top: 1px solid #ccc;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensures it's always above other content */
+  }
+  
+  /* Navigation Items */
+  .nav-item {
+    text-align: center;
+    flex: 1;
+    color: #333;
+    text-decoration: none;
+    font-size: 12px;
+    padding: 10px 0;
+  }
+  
+  /* Icons */
+  .nav-item i {
+    font-size: 20px;
+    color: green;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  /* Hover Effect */
+  .nav-item:hover {
+    color: #4caf50;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    body {
+      padding: 10px;
+    }
+  }
+  

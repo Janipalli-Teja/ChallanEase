@@ -5,12 +5,16 @@ body {
   margin: 0;
   padding: 0;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: 60px; /* Space for navbar */
 }
 
 /* Responsive Design */
 @media (max-width: 600px) {
   body {
-      padding: 10px;
+    padding: 10px;
   }
 }
 
@@ -26,6 +30,12 @@ header {
 header h1 {
   margin: 0;
   font-size: 2rem;
+}
+
+/* Main content wrapper */
+main {
+  flex: 1;
+  padding-bottom: 60px; /* Prevent content from being hidden behind the navbar */
 }
 
 /* Subheading styles */
@@ -51,22 +61,6 @@ h2 {
   transition: transform 0.2s ease-in-out;
 }
 
-#cameraButton:hover {
-  transform: scale(1.1);
-}
-
-/* Canvas styles */
-canvas {
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  margin-top: 20px;
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
 
 /* Submit button styles */
 #submitBtn {
@@ -94,14 +88,6 @@ canvas {
   padding: 20px;
   text-align: center;
   margin: 20px auto;
-}
-
-/* Header styles */
-.login-part header {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 20px;
 }
 
 /* Form validation container */
@@ -155,19 +141,53 @@ form > * {
   width: 100%;
 }
 
+/* 🎯 Bottom Navigation Bar */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  display: flex;
+  justify-content: space-around;
+  padding: 6px 0;
+  border-top: 1px solid #ccc;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Ensures it stays above all content */
+}
+
+/* Style for individual navigation items */
+.nav-item {
+  text-align: center;
+  flex: 1;
+  color: #333;
+  text-decoration: none;
+  font-size: 12px;
+  padding: 6px 0;
+}
+
+/* Icons in the nav bar */
+.nav-item i {
+  font-size: 20px;
+  display: block;
+  margin-bottom: 5px;
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
   canvas {
-      width: 100%;
-      max-width: 250px;
-      height: auto;
+    width: 100%;
+    max-width: 250px;
+    height: auto;
   }
+  
   .login-part {
-      width: 95%;
-      padding: 15px;
+    width: 95%;
+    padding: 15px;
   }
+  
   input[type="text"], select, button {
-      font-size: 0.9rem;
-      padding: 8px;
+    font-size: 0.9rem;
+    padding: 8px;
   }
 }

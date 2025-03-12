@@ -1,13 +1,22 @@
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
+const crypto = require('crypto');
+
+// Ensure 'uploads' directory exists
+const uploadDir = 'uploads/';
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 // Configure Multer Storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // Save images to 'uploads' directory
+        cb(null, uploadDir); // Save images to 'uploads' directory
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
+        const uniqueName = crypto.randomBytes(8).toString('hex');
+        cb(null, uniqueName + path.extname(file.originalname));
     }
 });
 
@@ -24,7 +33,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
     storage: storage,
     fileFilter: fileFilter,
-    limits: { fileSize: 5 * 1024 * 1024 } // Limit file size to 5MB
+    limits: { fileSize: 10 * 1024 * 1024 } // Increased file size limit to 10MB
 });
 
 module.exports = upload;
