@@ -85,3 +85,57 @@ document.querySelector(".login-part form").addEventListener("submit", async func
         alert("Failed to submit challan. Try again.");
     }
 });
+let deferredPrompt;
+
+// Register Service Worker
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/service-worker.js")
+      .then(reg => console.log("✅ Service Worker Registered", reg))
+      .catch(err => console.error("❌ Service Worker Registration Failed", err));
+  });
+}
+
+// Ensure DOM is Loaded Before Accessing Elements
+document.addEventListener("DOMContentLoaded", () => {
+  const installBtn = document.getElementById("install-button");
+
+  if (!installBtn) return; // Exit if button doesn't exist
+
+  // Hide install button if PWA is already installed
+  if (window.matchMedia("(display-mode: standalone)").matches) {
+    installBtn.style.display = "none";
+  }
+
+  // Handle Install Prompt
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    deferredPrompt = event;
+
+    // Show Install Button after a delay (fix for some browsers)
+    setTimeout(() => {
+      installBtn.style.display = "block";
+    }, 1000);
+  });
+
+  // Click Event for Install Button
+  installBtn.addEventListener("click", () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === "accepted") {
+          console.log("🎉 User installed the PWA");
+        } else {
+          console.log("❌ User dismissed the install prompt");
+        }
+        deferredPrompt = null;
+      });
+    }
+  });
+
+  // Hide Install Button After Installation
+  window.addEventListener("appinstalled", () => {
+    console.log("✅ PWA Installed Successfully");
+    installBtn.style.display = "none";
+  });
+});

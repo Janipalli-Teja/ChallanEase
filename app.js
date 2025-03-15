@@ -10,7 +10,7 @@ app.use('/uploads', express.static('uploads'));
 
 app.use(cookieParser());
 
-const { connectMongoDB } = require("./controllers/connection")
+const { connectMongoDB } = require("./controllers/connection");
 const model = require("./model/schema"); //importing schema to store in database format
 
 
@@ -38,6 +38,13 @@ app.use('/uploads', express.static('uploads'));
 
 app.get("/", (req, res) => {
     res.sendFile(path.resolve(__dirname, "public", "pages", "login.html"));
+});
+
+// Ensure correct MIME type for manifest.json
+app.get("/manifest.json", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "manifest.json"), {
+        headers: { "Content-Type": "application/manifest+json" }
+    });
 });
 
 // home page

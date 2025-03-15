@@ -1,6 +1,8 @@
 const express = require("express");
 const upload = require('../middileware/upload'); // Import Multer middleware
 const Challan = require('../model/schema'); // Import the Challan model
+const { spawn } = require("child_process");
+const path = require("path");
 
 const app = express();
 app.use(express.json());
@@ -18,34 +20,39 @@ router.get("/challan", async (req, res) => {
     }
 });
 
+let lastUploadedImageID = null;  // Temporary storage for latest imageID
 
-// Handle POST request for image upload
+// Handle Image Upload
 router.post('/submit-pic', upload.single('mypic'), (req, res) => {
     if (!req.file) {
         return res.status(400).send('No file uploaded.');
     }
-    console.log('File uploaded:', req.file);
-    res.send({ message: "Image uploaded successfully", imageID: req.file.filename });
+    lastUploadedImageID = req.file.filename;  // Save imageID in memory
+    console.log('Stored imageID:', lastUploadedImageID);
+
+    res.send({ message: "Image uploaded successfully", imageID: lastUploadedImageID });
 });
 
 // POST route to create a new challan entry
 router.post("/generate", async (req, res) => {
     try {
-        const { vehicle_number, violation, fine, imageID } = req.body;
+        const { vehicle_number, violation, fine } = req.body;
 
-        // Ensure all required fields are present
         if (!vehicle_number || !violation || !fine) {
             return res.status(400).json({ error: "Missing required fields" });
         }
+        if (!lastUploadedImageID) {
+            return res.status(400).json({ error: "No uploaded image found" });
+        }
 
-        // Create a new challan document
-        const newChallan = new Challan({ vehicle_number, violation, fine, imageID });
-
-        // Save to the database
+        // Create and save the new challan with the last imageID
+        const newChallan = new Challan({ vehicle_number, violation, fine, imageID: lastUploadedImageID });
         await newChallan.save();
 
         res.status(201).json({ message: "Challan submitted successfully!", challan: newChallan });
         console.log(newChallan);
+        // Reset imageID after use (optional)
+        lastUploadedImageID = null;
     } catch (error) {
         res.status(500).json({ error: "Failed to submit challan", details: error.message });
     }

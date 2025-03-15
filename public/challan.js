@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     try {
+        const serverURL = `${window.location.protocol}//${window.location.hostname}:3000`;
         const response = await fetch("/api/challan");
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
@@ -15,18 +16,19 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         challans.forEach(challan => {
             const li = document.createElement("li");
-
+            console.log(challan.imageID);
+            
             li.innerHTML = `
                 <strong> Vehicle:</strong> ${challan.vehicle_number} <br>
                 <strong>Violation:</strong> ${challan.violation} <br>
                 <strong>Fine:</strong> ₹${challan.fine} <br>
-                ${challan.imageID ? `<img src="/uploads/${challan.imageID}" width="100" onerror="this.src='">` : ""}
+                ${challan.imageID ? `<img src="${serverURL}/uploads/${challan.imageID}" width="100px">` : ""}
                 <hr>
             `;
 
             challanList.appendChild(li);
         });
-
+        
     } catch (error) {
         console.error("Failed to fetch challans:", error);
     }

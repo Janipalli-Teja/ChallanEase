@@ -9,10 +9,20 @@
   <link rel="stylesheet" href="../styles/index.css">
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <meta name="theme-color" content="#000000">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="apple-touch-icon" href="../images/icon-192x192.png">
+  <script>
+      if ("serviceWorker" in navigator) {
+          navigator.serviceWorker.register("/service-worker.js")
+              .then(() => console.log("Service Worker Registered"))
+              .catch(err => console.error("Service Worker Failed", err));
+      }
+  </script>
 </head>
 
 <body>
-
+  <button id="install-button" style="display: none;">Install App</button>
   <header>
     <h1>ChallanEase</h1>
   </header>
@@ -37,7 +47,6 @@
         <form action="/api/generate" method="POST" enctype="multipart/form-data">
           <label for="vehicle">Vehicle No :</label>
           <input type="text" name="vehicle" id="vehicle" placeholder="ex: AP 35 DE 1995">
-          <br><br>
 
           <label for="violation">Violation:</label>
           <select id="violation" name="violation">
@@ -66,11 +75,11 @@
   <!-- Stable Mobile-Style Bottom Navigation Bar -->
 <!-- Stable Mobile-Style Bottom Navigation Bar -->
 <nav class="bottom-nav">
-  <a href="/home" class="nav-item">
+  <a href="/home" class="nav-item home-icon">
     <i class="bi bi-house"></i>
     <span>Home</span>
   </a>
-  <a href="/challan" class="nav-item">
+  <a href="/challan" class="nav-item challan-icon">
     <i class="bi bi-receipt"></i>
     <span>Challans</span>
   </a>
