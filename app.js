@@ -1,9 +1,11 @@
 const express = require('express');
 const path = require('path');
 const cookieParser = require("cookie-parser");
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+require('dotenv').config();
+
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.static("public"));
 app.use('/uploads', express.static('uploads'));
@@ -22,12 +24,12 @@ const UserRoutes = require("./routes/user");
 
 
 // connecting mongodb
-connectMongoDB("mongodb+srv://tejajanipali:g8ld6WZ9qPFzmJKw@challans.pk3a8.mongodb.net/?retryWrites=true&w=majority&appName=Challans")
+connectMongoDB(process.env.MONGODB_URI)
     .then(() => {
         console.log("Mongodb connected")
     })
     .catch((err) => {
-        console.log(err)
+        console.error("MongoDB connection error:", err);
     });
 
 app.use(bodyParser.json());
