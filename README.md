@@ -120,11 +120,5 @@ ChallanEase/
 └── connection.js   # MongoDB connection logic
 ```
 Collabrators
-     -MrudhulaEdarapalli
      -Teja-Janipalli
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+     -MrudhulaEdarapalli
